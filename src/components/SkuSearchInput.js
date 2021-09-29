@@ -4,10 +4,12 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 export default function SkuSearchInput({ searchUrl, checkSearchKey, width, placeHolder, backgroundColor, onSelect }) {
   const [autoFilledData, setautoFilledData] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
 
 
 
   const searchData = async (keyWord) => {
+    setisLoading(true)
     let url;
     url = `${searchUrl}${checkSearchKey}=${keyWord}`
     console.log(url, "urlQueryParamurlQueryParam")
@@ -19,12 +21,13 @@ export default function SkuSearchInput({ searchUrl, checkSearchKey, width, place
       fetch(url, requestOptions)
         .then(response => response.json())
         .then(result => {
-          console.log(result,'resultresultresult')
           setautoFilledData(result.sku)
+          setisLoading(false)
         })
         .catch(error => console.log('error', error));
     }
     catch (err) {
+      setisLoading(false)
       console.log(err.response, "error from searchData", JSON.parse(JSON.stringify(err.message)));
     }
   }
@@ -55,18 +58,20 @@ export default function SkuSearchInput({ searchUrl, checkSearchKey, width, place
       <Autocomplete
         onChange={(event, value) => onSelect(value)}
         onClose={() => setautoFilledData([])}
+        loading={isLoading}
         getOptionLabel={(option) => option[checkSearchKey]}
         disablePortal
+        noOptionsText='There are no results'
         id="combo-box-demo"
         options={autoFilledData}
         sx={{ backgroundColor }}
         renderInput={(params) =>
-           <TextField onChange={(event) => {
-          onChange(event.target.value)
-        }}
-          color={'warning'}
-          {...params}
-          label={placeHolder} />}
+          <TextField onChange={(event) => {
+            onChange(event.target.value)
+          }}
+            color={'warning'}
+            {...params}
+            label={placeHolder} />}
       />
     </div>
 
