@@ -1,23 +1,16 @@
-import logo from './logo.svg';
+import SkuSearchInput from './components/SkuSearchInput';
+import FormResponse from './components/FormResponse';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="col1">
+        <SkuSearchInput />
+      </div>
+      <div className="col2">
+        <FormResponse />
+      </div>
     </div>
   );
 }

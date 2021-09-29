@@ -1,10 +1,26 @@
 .App {
   text-align: center;
+  display: flex;
+flex-basis: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.col1 {
+  background-color: #194D33;
+  flex-basis: 50%;
+  padding-top: 1%;
+}
+
+.col2 {
+  background-color: #EEF1F0;
+  flex-basis: 50%;
+  padding-top: 1%;
+}
+
+.frmHeading {
+  color: green;
+  font-size: 20px;
+  font-weight:600;
+ 
 }
 
 @media (prefers-reduced-motion: no-preference) {
