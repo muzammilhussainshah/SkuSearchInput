@@ -4,21 +4,67 @@ import '../App.css';
 export default function FormResponse() {
   return (
     <div>
-      <div className="frmHeading">
+      <div className="Frm-Heading">
         Form Response
       </div>
 
       <div style={{display:'flex',flexDirection:'row'}} >
-        <div>
-          Issurer name
+        <div className="Frm-Key-Val">
+         sku_id:
         </div>
-        <div >
-          muzammil shah
+        <div className="Frm-Key-Val" >
+          51
+        </div>
+      </div>
+      <div style={{display:'flex',flexDirection:'row'}} >
+        <div className="Frm-Key-Val">
+        sku_name: 
+        </div>
+        <div className="Frm-Key-Val" >
+        Chisel Wood 6mm
+        </div>
+      </div>
+      <div style={{display:'flex',flexDirection:'row'}} >
+        <div className="Frm-Key-Val">
+        sku_name: 
+        </div>
+        <div className="Frm-Key-Val" >
+        Chisel Wood 6mm
+        </div>
+      </div>
+      <div style={{display:'flex',flexDirection:'row'}} >
+        <div className="Frm-Key-Val">
+        sku_name: 
+        </div>
+        <div className="Frm-Key-Val" >
+        Chisel Wood 6mm
+        </div>
+      </div>
+      <div style={{display:'flex',flexDirection:'row'}} >
+        <div className="Frm-Key-Val">
+        sku_name: 
+        </div>
+        <div className="Frm-Key-Val" >
+        Chisel Wood 6mm
+        </div>
+      </div>
+      <div style={{display:'flex',flexDirection:'row'}} >
+        <div className="Frm-Key-Val">
+        sku_name: 
+        </div>
+        <div className="Frm-Key-Val" >
+        Chisel Wood 6mm
+        </div>
+      </div>
+      <div style={{display:'flex',flexDirection:'row'}} >
+        <div className="Frm-Key-Val">
+        sku_name: 
+        </div>
+        <div className="Frm-Key-Val" >
+        Chisel Wood 6mm
         </div>
       </div>
 
     </div>
   );
 }
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
