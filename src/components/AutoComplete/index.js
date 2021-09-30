@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import searchIcon from "../../assets/search.png";
 import "./style.css";
 
 function AutoCompleteComponent({
@@ -13,6 +14,9 @@ function AutoCompleteComponent({
   placeHolder,
   backgroundColor,
   cursor,
+  mouseEnterEv,
+  mouseLeaveEv,
+  onMouse,
   handleKeyDown,
   valText,
 }) {
@@ -40,27 +44,35 @@ function AutoCompleteComponent({
     }
 
     if (searchResultRef.current && searchResultRef.current.children) {
-      let listItems = Array.from(searchResultRef.current.children);
-      listItems[cursor] && scrollIntoView(listItems[cursor].offsetTop);
+      if (!onMouse) {
+        let listItems = Array.from(searchResultRef.current.children);
+        listItems[cursor] && scrollIntoView(listItems[cursor].offsetTop);
+      }
     }
   }, [searchResultRef, cursor]);
 
   return (
     <div className="search-input">
-      <input
-        ref={InputRef}
-        className={"input-autocomplete"}
-        style={{ backgroundColor }}
-        value={inputValue}
-        onKeyDown={handleKeyDown}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onChange={(event) => {
-          setinputValue(event.target.value);
-          onChangeText(event.target.value);
-        }}
-        placeholder={placeHolder}
-      />
+      <div className={"input-container"} style={{ backgroundColor }}>
+        <input
+          ref={InputRef}
+          className={"input-autocomplete"}
+          value={inputValue}
+          onKeyDown={handleKeyDown}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onChange={(event) => {
+            setinputValue(event.target.value);
+            onChangeText(event.target.value);
+          }}
+          placeholder={placeHolder}
+        />
+
+        <div>
+          <img src={searchIcon} width={30} />
+        </div>
+      </div>
+
       {searchText && !data.length && (
         <div className={"overflow-container"}>
           {loading && <div className={"no-result"}>{"Loading..."}</div>}
@@ -82,9 +94,11 @@ function AutoCompleteComponent({
           {data.map((i, j) => {
             return (
               <div
-                className={cursor === j ? "active-select" : null}
+                className={cursor === j ? "active-select" : "item-hover"}
                 key={j + Date.now()}
                 tabIndex={j}
+                onMouseEnter={mouseEnterEv}
+                onMouseLeave={mouseLeaveEv}
                 onClick={() => {
                   onSelect(i);
                   setinputValue(i.sku_name);

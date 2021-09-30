@@ -6,10 +6,28 @@
 .input-autocomplete {
   display: flex;
   flex-grow: 1;
-  padding: 15px;
+  background-color: transparent;
   color: rgba(0, 0, 0, 0.87);
-  border-radius: 4px;
   font-size: 16px;
+  border: none;
+  padding: 15px;
+}
+
+input:focus {
+  outline: none;
+}
+
+.input-container {
+  display: flex;
+  flex-grow: 1;
+  border-radius: 4px;
+  padding: 0px 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-autocomplete:focus {
+  border: none !important;
 }
 
 .input-autocomplete::placeholder {
@@ -51,6 +69,11 @@
 }
 
 .active-select {
+  background-color: lightgrey;
+  color: #fff !important;
+}
+
+.item-hover:hover {
   background-color: lightgrey;
   color: #fff !important;
 }

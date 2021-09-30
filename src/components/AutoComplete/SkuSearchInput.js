@@ -15,6 +15,7 @@ export default function SkuSearchInput({
   const [noResults, setNoResults] = useState(false);
   const [cursor, setCursor] = useState(-1);
   const [inputValue, setinputValue] = useState("");
+  const [onMouse, setOnMouse] = useState(false);
 
   const searchData = async (keyWord) => {
     setisLoading(true);
@@ -63,22 +64,34 @@ export default function SkuSearchInput({
 
   const handleKeyDown = (e) => {
     // arrow up/down button should select next/previous list element
-    if (e.keyCode === 38 && cursor > 0) {
-      let cloneCursor = cursor - 1;
+    if (!onMouse) {
+      if (e.keyCode === 38 && cursor > 0) {
+        let cloneCursor = cursor - 1;
 
-      setCursor(cloneCursor);
-    } else if (e.keyCode === 40 && cursor < autoFilledData.length - 1) {
-      let cloneCursor = cursor + 1;
+        setCursor(cloneCursor);
+      } else if (e.keyCode === 40 && cursor < autoFilledData.length - 1) {
+        let cloneCursor = cursor + 1;
 
-      setCursor(cloneCursor);
-    } else if (e.keyCode === 13 && cursor >= 0) {
-      let selectedItem = autoFilledData[cursor];
-      setinputValue(selectedItem.sku_name);
-      onSelect(selectedItem);
-      setSearchText(false);
-      setNoResults(false);
-      setCursor(-1);
+        setCursor(cloneCursor);
+      } else if (e.keyCode === 13 && cursor >= 0) {
+        let selectedItem = autoFilledData[cursor];
+        setinputValue(selectedItem.sku_name);
+        onSelect(selectedItem);
+        setSearchText(false);
+        setNoResults(false);
+        setCursor(-1);
+      }
     }
+  };
+
+  const mouseEnterEv = (ev) => {
+    setOnMouse(true);
+    setCursor(ev.target.tabIndex);
+  };
+
+  const mouseLeaveEv = (ev) => {
+    setOnMouse(false);
+    setCursor(-1);
   };
 
   return (
@@ -105,6 +118,9 @@ export default function SkuSearchInput({
         noResults={noResults}
         handleKeyDown={handleKeyDown}
         searchText={searchText}
+        mouseEnterEv={mouseEnterEv}
+        mouseLeaveEv={mouseLeaveEv}
+        onMouse={onMouse}
         onSelect={(value) => onSelect(value)}
         cursor={cursor}
       />
