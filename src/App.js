@@ -1,5 +1,5 @@
-import SkuSearchInput from './components/SkuSearchInput';
-import FormResponse from './components/FormResponse';
+import SkuSearchInput from './components/AutoComplete/SkuSearchInput';
+import FormResponse from './components/FormResponse/index.js';
 import React, { useState } from 'react';
 import './App.css';
 

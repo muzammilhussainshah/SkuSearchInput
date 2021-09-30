@@ -10,15 +10,27 @@ function AutoCompleteComponent({
   onFocus,
   onBlur,
   onSelect,
+  placeHolder,
+  backgroundColor
 }) {
+  const [inputValue, setinputValue] = useState('');
+
+
+
+
   return (
     <div className="search-input">
       <input
         className={"input-autocomplete"}
+        style={{backgroundColor}}
+        value={inputValue}
         onFocus={onFocus}
         onBlur={onBlur}
-        onChange={(event) => onChangeText(event.target.value)}
-        placeholder={"Type to search for a service"}
+        onChange={(event) => {
+          setinputValue(event.target.value)
+          onChangeText(event.target.value)
+        }}
+        placeholder={placeHolder}
       />
       {searchText && !data.length && (
         <div className={"overflow-container"}>
@@ -32,13 +44,16 @@ function AutoCompleteComponent({
       {searchText && data.length > 0 && (
         <div
           style={{
-            bottom: data.length > 6 ? -202 : -44 * data.length,
+            bottom: data.length > 6 ? -202 : -48 * data.length,
             overflowY: data.length > 6 ? "scroll" : "auto",
           }}
           className={"overflow-container-full-height"}
         >
-          {data.map((i) => {
-            return <div onClick={() => onSelect(i.sku_id)}>{i.sku_name}</div>;
+          {data.map((i, j) => {
+            return <div key={j + Date.now()} onClick={() => {
+              onSelect(i)
+              setinputValue(i.sku_name)
+            }}>{i.sku_name}</div>;
           })}
         </div>
       )}
