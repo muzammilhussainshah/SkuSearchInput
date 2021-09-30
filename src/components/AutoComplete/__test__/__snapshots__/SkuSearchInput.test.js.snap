@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div
+  data-testid="search-button"
+  style={
+    Object {
+      "width": undefined,
+    }
+  }
+>
+  <div
+    className="search-input"
+  >
+    <div
+      className="input-container"
+      style={
+        Object {
+          "backgroundColor": undefined,
+          "borderColor": undefined,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+        }
+      }
+    >
+      <input
+        className="input-autocomplete"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        value=""
+      />
+      <div>
+        <img
+          src="search.png"
+          width={30}
+        />
+      </div>
+    </div>
+    
+    
+  </div>
+</div>
+`;

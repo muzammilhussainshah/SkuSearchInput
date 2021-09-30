@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AutoCompleteComponent from "../AutoComplete/index";
 
 export default function SkuSearchInput({
@@ -48,7 +48,8 @@ export default function SkuSearchInput({
     }
   };
 
-  let timer = setTimeout(() => {}, 1);
+  //Debounce typing to not search for every keystroke.
+  let timer = setTimeout(() => { }, 1);
   const onChange = (keyWord) => {
     if (keyWord) {
       clearTimeout(timer);
@@ -96,7 +97,9 @@ export default function SkuSearchInput({
   };
 
   return (
-    <div style={{ width }}>
+    <div
+      data-testid='search-button'
+      style={{ width }}>
       <AutoCompleteComponent
         loading={isLoading}
         data={autoFilledData}
