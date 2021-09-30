@@ -87,7 +87,7 @@ function AutoCompleteComponent({
         <div
           ref={searchResultRef}
           style={{
-            bottom: data.length >= 5 ? -202 : -25 * (data.length * 2),
+            bottom: data.length >= 5 ? -202 : -24 * (data.length * 2),
             overflowY: data.length >= 5 ? "scroll" : "auto",
           }}
           className={"overflow-container-full-height"}
