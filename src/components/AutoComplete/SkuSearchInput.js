@@ -56,6 +56,7 @@ export default function SkuSearchInput({
       timer = setTimeout(() => {
         setSearchText(keyWord);
         searchData(keyWord);
+        console.log('Debounce typing to not search for every keystr')
       }, 500);
     } else {
       setTimeout(() => {

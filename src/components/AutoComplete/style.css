@@ -81,3 +81,20 @@ input:focus {
   background-color: lightgrey;
   color: #fff !important;
 }
+
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-loader {
+    animation: App-loader-spin infinite 1s linear;
+  }
+}
+
+@keyframes App-loader-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
