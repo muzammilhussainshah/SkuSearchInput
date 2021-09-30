@@ -20,6 +20,7 @@ input:focus {
 .input-container {
   display: flex;
   flex-grow: 1;
+  box-shadow: 1px 1px 3px 1px grey;
   border-radius: 4px;
   justify-content: center;
   align-items: center;

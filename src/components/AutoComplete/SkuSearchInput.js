@@ -8,6 +8,7 @@ export default function SkuSearchInput({
   placeHolder,
   backgroundColor,
   onSelect,
+  borderColor,
 }) {
   const [autoFilledData, setautoFilledData] = useState([]);
   const [isLoading, setisLoading] = useState(false);
@@ -115,6 +116,7 @@ export default function SkuSearchInput({
         onChangeText={(value) => onChange(value)}
         placeHolder={placeHolder}
         backgroundColor={backgroundColor}
+        borderColor={borderColor}
         noResults={noResults}
         handleKeyDown={handleKeyDown}
         searchText={searchText}

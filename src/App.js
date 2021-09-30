@@ -11,10 +11,11 @@ function App() {
       <div className="col1">
           <SkuSearchInput
             searchUrl={'https://toro278.us-east.toroserver.com/api/demo_api_inventory/1.0/sku/search?'}
-            checkSearchKey={'sku_name'}
+            checkSearchKey={'sku_name'}//To search for perspective keywords in object key.
             width={'80%'}
             placeHolder={'Type to search for a service'}
-            backgroundColor={"#EEF1F0"}
+            backgroundColor={"#EEF1F0"}//for input background color
+            // borderColor={"#e96a69"}//for input border color
             onSelect={(value)=>setsku(value)}
           />
       </div>

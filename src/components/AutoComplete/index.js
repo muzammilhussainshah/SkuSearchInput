@@ -19,6 +19,7 @@ function AutoCompleteComponent({
   onMouse,
   handleKeyDown,
   valText,
+  borderColor
 }) {
   const [inputValue, setinputValue] = useState("");
   const searchResultRef = useRef(null);
@@ -53,7 +54,7 @@ function AutoCompleteComponent({
 
   return (
     <div className="search-input">
-      <div className={"input-container"} style={{ backgroundColor }}>
+      <div className={"input-container"} style={{borderStyle:"solid",borderWidth:1,borderColor:borderColor, backgroundColor, }}>
         <input
           ref={InputRef}
           className={"input-autocomplete"}
@@ -86,7 +87,7 @@ function AutoCompleteComponent({
         <div
           ref={searchResultRef}
           style={{
-            bottom: data.length >= 5 ? -202 : -24 * (data.length * 2),
+            bottom: data.length >= 5 ? -202 : -25 * (data.length * 2),
             overflowY: data.length >= 5 ? "scroll" : "auto",
           }}
           className={"overflow-container-full-height"}
