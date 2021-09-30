@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./style.css";
 
 function AutoCompleteComponent({
-  data = ["asd", "sad", "sadasd", "sads"],
+  data = [],
   searchText = true,
   loading = false,
   onChangeText,
@@ -11,24 +11,53 @@ function AutoCompleteComponent({
   onBlur,
   onSelect,
   placeHolder,
-  backgroundColor
+  backgroundColor,
+  cursor,
+  handleKeyDown,
+  valText,
 }) {
-  const [inputValue, setinputValue] = useState('');
+  const [inputValue, setinputValue] = useState("");
+  const searchResultRef = useRef(null);
+  const InputRef = useRef(null);
 
+  const scrollIntoView = (position) => {
+    searchResultRef.current.scrollTo({
+      top: position,
+      behavior: "smooth",
+    });
+  };
 
+  useEffect(() => {
+    if (InputRef.current && InputRef.current.value) {
+      InputRef.current.value = valText;
+      setinputValue(valText);
+    }
+  }, [valText, InputRef]);
 
+  useEffect(() => {
+    if (cursor < 0 || !searchResultRef) {
+      return () => {};
+    }
+
+    if (searchResultRef.current && searchResultRef.current.children) {
+      let listItems = Array.from(searchResultRef.current.children);
+      listItems[cursor] && scrollIntoView(listItems[cursor].offsetTop);
+    }
+  }, [searchResultRef, cursor]);
 
   return (
     <div className="search-input">
       <input
+        ref={InputRef}
         className={"input-autocomplete"}
-        style={{backgroundColor}}
+        style={{ backgroundColor }}
         value={inputValue}
+        onKeyDown={handleKeyDown}
         onFocus={onFocus}
         onBlur={onBlur}
         onChange={(event) => {
-          setinputValue(event.target.value)
-          onChangeText(event.target.value)
+          setinputValue(event.target.value);
+          onChangeText(event.target.value);
         }}
         placeholder={placeHolder}
       />
@@ -43,17 +72,27 @@ function AutoCompleteComponent({
 
       {searchText && data.length > 0 && (
         <div
+          ref={searchResultRef}
           style={{
-            bottom: data.length > 6 ? -202 : -48 * data.length,
-            overflowY: data.length > 6 ? "scroll" : "auto",
+            bottom: data.length >= 5 ? -202 : -22 * (data.length * 2),
+            overflowY: data.length >= 5 ? "scroll" : "auto",
           }}
           className={"overflow-container-full-height"}
         >
           {data.map((i, j) => {
-            return <div key={j + Date.now()} onClick={() => {
-              onSelect(i)
-              setinputValue(i.sku_name)
-            }}>{i.sku_name}</div>;
+            return (
+              <div
+                className={cursor === j ? "active-select" : null}
+                key={j + Date.now()}
+                tabIndex={j}
+                onClick={() => {
+                  onSelect(i);
+                  setinputValue(i.sku_name);
+                }}
+              >
+                {i.sku_name}
+              </div>
+            );
           })}
         </div>
       )}

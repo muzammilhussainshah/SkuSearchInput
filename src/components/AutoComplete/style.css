@@ -49,3 +49,8 @@
   padding: 13px;
   color: gray;
 }
+
+.active-select {
+  background-color: lightgrey;
+  color: #fff !important;
+}
