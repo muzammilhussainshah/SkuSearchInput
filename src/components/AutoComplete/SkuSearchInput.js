@@ -72,7 +72,6 @@ export default function SkuSearchInput({
 
       setCursor(cloneCursor);
     } else if (e.keyCode === 13 && cursor >= 0) {
-      console.log("clala");
       let selectedItem = autoFilledData[cursor];
       setinputValue(selectedItem.sku_name);
       onSelect(selectedItem);
