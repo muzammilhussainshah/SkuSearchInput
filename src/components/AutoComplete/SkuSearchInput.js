@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AutoCompleteComponent from "../AutoComplete/index";
 
 export default function SkuSearchInput({
@@ -8,6 +8,7 @@ export default function SkuSearchInput({
   placeHolder,
   backgroundColor,
   onSelect,
+  borderColor,
 }) {
   const [autoFilledData, setautoFilledData] = useState([]);
   const [isLoading, setisLoading] = useState(false);
@@ -78,7 +79,7 @@ export default function SkuSearchInput({
   };
 
   return (
-    <div style={{ width }}>
+    <div data-testid="search-button" style={{ width }}>
       <AutoCompleteComponent
         loading={isLoading}
         data={autoFilledData}
@@ -88,6 +89,7 @@ export default function SkuSearchInput({
         onChangeText={(ev) => onChange(ev.target.value)}
         placeHolder={placeHolder}
         backgroundColor={backgroundColor}
+        borderColor={borderColor}
         noResults={noResults}
         handleKeyDown={handleKeyDown}
         onMouseEnterEvent={(ev) => handleMouseEvent(ev, true)}

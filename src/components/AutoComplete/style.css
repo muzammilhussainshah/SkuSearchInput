@@ -20,6 +20,7 @@ input:focus {
 .input-container {
   display: flex;
   flex-grow: 1;
+  box-shadow: 1px 1px 3px 1px grey;
   border-radius: 4px;
   justify-content: center;
   align-items: center;
@@ -47,7 +48,7 @@ input:focus {
   /* padding: 15px; */
   /* border: 1px solid; */
   position: absolute;
-  bottom: -51px;
+  bottom: -53px;
 }
 
 .no-result {
@@ -69,4 +70,29 @@ input:focus {
 .overflow-container-full-height > div {
   padding: 13px;
   color: gray;
+}
+
+.active-select {
+  background-color: lightgrey;
+  color: #fff !important;
+}
+
+.item-hover:hover {
+  background-color: lightgrey;
+  color: #fff !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-loader {
+    animation: App-loader-spin infinite 1s linear;
+  }
+}
+
+@keyframes App-loader-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -4,6 +4,7 @@ import searchIcon from "../../assets/search.png";
 import ListComponent from "../List";
 
 import "./style.css";
+import loader from "../../assets/loader.png";
 
 function AutoCompleteComponent({
   data = [],
@@ -21,6 +22,7 @@ function AutoCompleteComponent({
   isMouseEnter,
   handleKeyDown,
   value,
+  borderColor,
 }) {
   const searchResultRef = useRef(null);
   const InputRef = useRef(null);
@@ -45,7 +47,15 @@ function AutoCompleteComponent({
 
   return (
     <div className="search-input">
-      <div className={"input-container"} style={{ backgroundColor }}>
+      <div
+        className={"input-container"}
+        style={{
+          borderStyle: "solid",
+          borderWidth: 1,
+          borderColor: borderColor,
+          backgroundColor,
+        }}
+      >
         <input
           ref={InputRef}
           className={"input-autocomplete"}
@@ -62,7 +72,18 @@ function AutoCompleteComponent({
 
       {value && !data.length && (
         <div className={"overflow-container"}>
-          {loading && <div className={"no-result"}>{"Loading..."}</div>}
+          {loading && (
+            <div className={"no-result"}>
+              {"Loading... "}
+              <img
+                src={loader}
+                width="10px"
+                height="10px"
+                className="App-loader"
+                alt="logo"
+              />
+            </div>
+          )}
           {noResults && !loading && (
             <div className={"no-result"}>{"There are no results"}</div>
           )}
@@ -73,7 +94,7 @@ function AutoCompleteComponent({
         <div
           ref={searchResultRef}
           style={{
-            bottom: data.length >= 5 ? -202 : -22 * (data.length * 2),
+            bottom: data.length >= 5 ? -202 : -24 * (data.length * 2),
             overflowY: data.length >= 5 ? "scroll" : "auto",
           }}
           className={"overflow-container-full-height"}
