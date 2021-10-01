@@ -11,60 +11,44 @@ export default function SkuSearchInput({
 }) {
   const [autoFilledData, setautoFilledData] = useState([]);
   const [isLoading, setisLoading] = useState(false);
-  const [searchText, setSearchText] = useState("");
   const [noResults, setNoResults] = useState(false);
   const [cursor, setCursor] = useState(-1);
-  const [inputValue, setinputValue] = useState("");
-  const [onMouse, setOnMouse] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [mouseEnter, setMouseEnter] = useState(false);
+
+  const fetchSearchData = async (url) => {
+    let options = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    return await fetch(url, options);
+  };
 
   const searchData = async (keyWord) => {
     setisLoading(true);
-    let url;
-    url = `${searchUrl}${checkSearchKey}=${keyWord}`;
+    let url = `${searchUrl}${checkSearchKey}=${keyWord}`;
+
     try {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-      fetch(url, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(
-            "🚀 ~ file: SkuSearchInput.js ~ line 32 ~ .then ~ result",
-            result
-          );
-          setautoFilledData(result.sku);
-          setisLoading(false);
-        })
-        .catch((error) => console.log("error", error));
+      const response = await (await fetchSearchData(url)).json();
+
+      response && response.result === "OK" && setautoFilledData(response.sku);
+      setisLoading(false);
     } catch (err) {
       setisLoading(false);
-      console.log(
-        err.response,
-        "error from searchData",
-        JSON.parse(JSON.stringify(err.message))
-      );
     }
   };
 
-  let timer = setTimeout(() => {}, 1);
   const onChange = (keyWord) => {
-    if (keyWord) {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        setSearchText(keyWord);
-        searchData(keyWord);
-      }, 500);
-    } else {
-      setTimeout(() => {
-        setautoFilledData([]);
-      }, 1200);
-    }
+    setInputValue(keyWord);
+
+    if (keyWord) searchData(keyWord);
+    else setTimeout(() => setautoFilledData([]), 1200);
   };
 
   const handleKeyDown = (e) => {
     // arrow up/down button should select next/previous list element
-    if (!onMouse) {
+    if (!mouseEnter) {
       if (e.keyCode === 38 && cursor > 0) {
         let cloneCursor = cursor - 1;
 
@@ -75,22 +59,21 @@ export default function SkuSearchInput({
         setCursor(cloneCursor);
       } else if (e.keyCode === 13 && cursor >= 0) {
         let selectedItem = autoFilledData[cursor];
-        setinputValue(selectedItem.sku_name);
+
+        setInputValue(selectedItem.sku_name);
         onSelect(selectedItem);
-        setSearchText(false);
-        setNoResults(false);
-        setCursor(-1);
+        resetValues(false);
       }
     }
   };
 
-  const mouseEnterEv = (ev) => {
-    setOnMouse(true);
+  const handleMouseEvent = (ev, toggle) => {
+    setMouseEnter(toggle);
     setCursor(ev.target.tabIndex);
   };
 
-  const mouseLeaveEv = (ev) => {
-    setOnMouse(false);
+  const resetValues = (toggle) => {
+    setNoResults(toggle);
     setCursor(-1);
   };
 
@@ -99,29 +82,21 @@ export default function SkuSearchInput({
       <AutoCompleteComponent
         loading={isLoading}
         data={autoFilledData}
-        onFocus={() => {
-          setSearchText(true);
-          setNoResults(true);
-          setCursor(-1);
-        }}
-        onBlur={() => {
-          setTimeout(() => {
-            setSearchText(false);
-            setNoResults(false);
-            setCursor(-1);
-          }, 500);
-        }}
-        valText={inputValue}
-        onChangeText={(value) => onChange(value)}
+        onFocus={() => resetValues(true)}
+        onBlur={() => setTimeout(() => resetValues(false), 500)}
+        value={inputValue}
+        onChangeText={(ev) => onChange(ev.target.value)}
         placeHolder={placeHolder}
         backgroundColor={backgroundColor}
         noResults={noResults}
         handleKeyDown={handleKeyDown}
-        searchText={searchText}
-        mouseEnterEv={mouseEnterEv}
-        mouseLeaveEv={mouseLeaveEv}
-        onMouse={onMouse}
-        onSelect={(value) => onSelect(value)}
+        onMouseEnterEvent={(ev) => handleMouseEvent(ev, true)}
+        onMouseLeaveEvent={(ev) => handleMouseEvent(ev, false)}
+        isMouseEnter={mouseEnter}
+        onSelect={(item) => {
+          setInputValue(item.sku_name);
+          onSelect(item);
+        }}
         cursor={cursor}
       />
     </div>

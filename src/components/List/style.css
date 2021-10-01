@@ -1,0 +1,9 @@
+.active-select {
+  background-color: lightgrey;
+  color: #fff !important;
+}
+
+.item-hover:hover {
+  background-color: lightgrey;
+  color: #fff !important;
+}

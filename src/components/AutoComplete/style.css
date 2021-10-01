@@ -25,7 +25,7 @@ input:focus {
   align-items: center;
 }
 
-.input-container > div:nth-child(2) {
+.input-container > img {
   padding: 0px 15px;
 }
 
@@ -69,14 +69,4 @@ input:focus {
 .overflow-container-full-height > div {
   padding: 13px;
   color: gray;
-}
-
-.active-select {
-  background-color: lightgrey;
-  color: #fff !important;
-}
-
-.item-hover:hover {
-  background-color: lightgrey;
-  color: #fff !important;
 }

@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+
 import searchIcon from "../../assets/search.png";
+import ListComponent from "../List";
+
 import "./style.css";
 
 function AutoCompleteComponent({
   data = [],
-  searchText = true,
   loading = false,
   onChangeText,
   noResults = false,
@@ -14,15 +16,25 @@ function AutoCompleteComponent({
   placeHolder,
   backgroundColor,
   cursor,
-  mouseEnterEv,
-  mouseLeaveEv,
-  onMouse,
+  onMouseEnterEvent,
+  onMouseLeaveEvent,
+  isMouseEnter,
   handleKeyDown,
-  valText,
+  value,
 }) {
-  const [inputValue, setinputValue] = useState("");
   const searchResultRef = useRef(null);
   const InputRef = useRef(null);
+
+  useEffect(() => {
+    if (cursor < 0 || !searchResultRef) {
+      return () => {};
+    }
+
+    if (searchResultRef.current && !isMouseEnter) {
+      let listItems = Array.from(searchResultRef.current.children);
+      listItems[cursor] && scrollIntoView(listItems[cursor].offsetTop);
+    }
+  }, [searchResultRef, cursor]);
 
   const scrollIntoView = (position) => {
     searchResultRef.current.scrollTo({
@@ -31,49 +43,24 @@ function AutoCompleteComponent({
     });
   };
 
-  useEffect(() => {
-    if (InputRef.current && InputRef.current.value) {
-      InputRef.current.value = valText;
-      setinputValue(valText);
-    }
-  }, [valText, InputRef]);
-
-  useEffect(() => {
-    if (cursor < 0 || !searchResultRef) {
-      return () => {};
-    }
-
-    if (searchResultRef.current && searchResultRef.current.children) {
-      if (!onMouse) {
-        let listItems = Array.from(searchResultRef.current.children);
-        listItems[cursor] && scrollIntoView(listItems[cursor].offsetTop);
-      }
-    }
-  }, [searchResultRef, cursor]);
-
   return (
     <div className="search-input">
       <div className={"input-container"} style={{ backgroundColor }}>
         <input
           ref={InputRef}
           className={"input-autocomplete"}
-          value={inputValue}
+          value={value}
           onKeyDown={handleKeyDown}
           onFocus={onFocus}
           onBlur={onBlur}
-          onChange={(event) => {
-            setinputValue(event.target.value);
-            onChangeText(event.target.value);
-          }}
+          onChange={onChangeText}
           placeholder={placeHolder}
         />
 
-        <div>
-          <img src={searchIcon} width={30} />
-        </div>
+        <img src={searchIcon} width={30} alt={"Search icon"} />
       </div>
 
-      {searchText && !data.length && (
+      {value && !data.length && (
         <div className={"overflow-container"}>
           {loading && <div className={"no-result"}>{"Loading..."}</div>}
           {noResults && !loading && (
@@ -82,7 +69,7 @@ function AutoCompleteComponent({
         </div>
       )}
 
-      {searchText && data.length > 0 && (
+      {value && data.length > 0 && (
         <div
           ref={searchResultRef}
           style={{
@@ -91,23 +78,13 @@ function AutoCompleteComponent({
           }}
           className={"overflow-container-full-height"}
         >
-          {data.map((i, j) => {
-            return (
-              <div
-                className={cursor === j ? "active-select" : "item-hover"}
-                key={j + Date.now()}
-                tabIndex={j}
-                onMouseEnter={mouseEnterEv}
-                onMouseLeave={mouseLeaveEv}
-                onClick={() => {
-                  onSelect(i);
-                  setinputValue(i.sku_name);
-                }}
-              >
-                {i.sku_name}
-              </div>
-            );
-          })}
+          <ListComponent
+            data={data}
+            onSelect={onSelect}
+            cursor={cursor}
+            onMouseEnterEvent={onMouseEnterEvent}
+            onMouseLeaveEvent={onMouseLeaveEvent}
+          />
         </div>
       )}
     </div>
