@@ -10,7 +10,7 @@ function AutoCompleteComponent({
   data = [],
   loading = false,
   onChangeText,
-  noResults = false,
+  noResults,
   onFocus,
   onBlur,
   onSelect,
@@ -23,9 +23,9 @@ function AutoCompleteComponent({
   handleKeyDown,
   value,
   borderColor,
+  isFocused,
 }) {
   const searchResultRef = useRef(null);
-  const InputRef = useRef(null);
 
   useEffect(() => {
     if (cursor < 0 || !searchResultRef) {
@@ -57,7 +57,6 @@ function AutoCompleteComponent({
         }}
       >
         <input
-          ref={InputRef}
           className={"input-autocomplete"}
           value={value}
           onKeyDown={handleKeyDown}
@@ -70,7 +69,7 @@ function AutoCompleteComponent({
         <img src={searchIcon} width={30} alt={"Search icon"} />
       </div>
 
-      {value && !data.length && (
+      {isFocused && !data.length && (
         <div className={"overflow-container"}>
           {loading && (
             <div className={"no-result"}>
@@ -90,7 +89,7 @@ function AutoCompleteComponent({
         </div>
       )}
 
-      {value && data.length > 0 && (
+      {value && isFocused && data.length > 0 && (
         <div
           ref={searchResultRef}
           style={{

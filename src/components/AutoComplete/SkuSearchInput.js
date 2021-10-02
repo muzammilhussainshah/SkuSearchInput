@@ -16,6 +16,7 @@ export default function SkuSearchInput({
   const [cursor, setCursor] = useState(-1);
   const [inputValue, setInputValue] = useState("");
   const [mouseEnter, setMouseEnter] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const fetchSearchData = async (url) => {
     let options = {
@@ -27,13 +28,15 @@ export default function SkuSearchInput({
   };
 
   const searchData = async (keyWord) => {
-    setisLoading(true);
     let url = `${searchUrl}${checkSearchKey}=${keyWord}`;
 
+    setisLoading(true);
     try {
       const response = await (await fetchSearchData(url)).json();
 
-      response && response.result === "OK" && setautoFilledData(response.sku);
+      response && response.result === "OK"
+        ? setautoFilledData(response.sku)
+        : setautoFilledData([]);
       setisLoading(false);
     } catch (err) {
       setisLoading(false);
@@ -44,7 +47,10 @@ export default function SkuSearchInput({
     setInputValue(keyWord);
 
     if (keyWord) searchData(keyWord);
-    else setTimeout(() => setautoFilledData([]), 1200);
+    else {
+      setisLoading(false);
+      // resetValues(true);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -75,6 +81,7 @@ export default function SkuSearchInput({
 
   const resetValues = (toggle) => {
     setNoResults(toggle);
+    setIsFocused(toggle);
     setCursor(-1);
   };
 
@@ -83,8 +90,9 @@ export default function SkuSearchInput({
       <AutoCompleteComponent
         loading={isLoading}
         data={autoFilledData}
+        isFocused={isFocused}
         onFocus={() => resetValues(true)}
-        onBlur={() => setTimeout(() => resetValues(false), 500)}
+        onBlur={() => setTimeout(() => resetValues(false), 100)}
         value={inputValue}
         onChangeText={(ev) => onChange(ev.target.value)}
         placeHolder={placeHolder}
@@ -98,6 +106,7 @@ export default function SkuSearchInput({
         onSelect={(item) => {
           setInputValue(item.sku_name);
           onSelect(item);
+          resetValues(false);
         }}
         cursor={cursor}
       />
