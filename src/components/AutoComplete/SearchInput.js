@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AutoCompleteComponent from "../AutoComplete/index";
 
-export default function SkuSearchInput({
+export default function SearchInput({
   searchUrl,
   checkSearchKey,
   width,
